@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce Website Design</title>
+    <link rel="stylesheet" href='{% static "store/style.css" %}'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-10">
+                    <h5>Thông tin liên hệ : 0902482722</h5>
+                </div>
+                <div class="col-xs-2">
+                    <h6>
+                        {% if username %}
+                        Hello {{username}}
+                        <i class="ti-power-off"></i><a href="{% url 'store:logout.html'%}">Logout</a>
+                        {% else %}
+                        <i class="ti-power-off"></i><a href="{% url 'store:login.html'%}">Login</a>
+                        {% endif %}
+                    </h6>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="logo">
+                        <a href="{% url 'store:index.html'%}"><img src='{% static "store/images/logo.png" %}' width="300px" height="150px"></a>
+                    </div>
+                </div>
+                <div class="col-6">
+
+                </div>
+                <div class="col-2">
+                    
+                </div>
+                <div class="right-bar">
+                    <div class="sinlge-bar shopping">
+                        {% if cart %}
+                        <a href="#" class="single-icon"><img src='{% static "store/images/cart.png" %}' width="30px" height="30px"><span class="total-count">{{cart|length}}</span></a>
+                        <!-- Shopping Item -->
+                        <div class="shopping-item">
+                            <div class="dropdown-cart-header">
+                                <span>Số sản phẩm {{cart|length}} </span>
+                                <a href="{% url 'cart:cart_detail'%}">Xem giỏ hàng</a>
+                            </div>
+                            <ul class="shopping-list">
+                                {% for item in cart %}
+                                {% with product=item.product %}
+                                <li>
+                                    <form action="{% url 'cart:cart_remove' product.pk %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" value="&#9746;">
+                                    </form>
+                                    <a class="cart-img" href="{% url 'store:products_detail.html' product.pk %}"><img
+                                            src="{{product.image.url}}" alt="{{product.name}}"></a>
+                                    <h4><a href="{% url 'store:products_detail.html' product.pk %}">{{product.name}}</a>
+                                    </h4>
+                                    <p class="quantity">{{item.quantity}} x <span class="amount">{% load humanize %}{{product.price|floatformat:0|intcomma}} VNĐ</span></p>
+
+                                </li>
+                                {% endwith %}
+                                {% endfor %}
+                            </ul>
+                            <div class="bottom">
+                                <div class="total">
+                                    <span>Total</span>
+                                    <span class="total-amount">{% load humanize %}{{cart.get_total_price|floatformat:0|intcomma}} VNĐ</span>
+                                </div>
+                                <a href="{% url 'orders:order_create' %}" class="btn animate">Đặt hàng</a>
+                            </div>
+                        </div>
+                        <!--/ End Shopping Item -->
+                        {% endif %}
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="navbar">
+                    <b><a href="{% url 'store:index.html'%}">Trang Chủ</a>
+                    <div class="dropdown">
+                        <button class="nut_dropdown"><b>Shop</b>
+                        <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="noidung_dropdown">
+                        <b><a href="{% url 'store:products.html' 0%}">Sản Phẩm</a>
+                        <b><a href="{% url 'cart:cart_detail'%}">Giỏ Hàng</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'store:contact.html'%}">Liên hệ</a>
+                    <img src='{% static "store/images/menu.png" %}' class="menu-icon" onclick="menutoggle()">
+                </div> 
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- <div class="slideshow-container">
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/3.jpg" style="width:100%; height: 700px">
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/4.jpg" style="width:100%; height: 700px">
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/5.jpg" style="width:100%; height: 700px;">
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/6.jpg" style="width:100%; height: 700px;">
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/7.jpg" style="width:100%; height: 700px;">
+            <div class="text"></div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext"></div>
+            <img src="/media/store/images/8.jpg" style="width:100%; height: 700px;">
+            <div class="text"></div>
+        </div>
+
+    </div>
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div> -->
+
+    {% block content %}
+
+    {% endblock %}
+    <!-- ------------------- brands --------------------- -->
+    <div class="brands">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-5">
+                    <a href="https://www.adidas.com.vn/" target="_blank"><img src='{% static "store/images/adidas-logo.png" %}'></a>
+                </div>
+                <div class="col-5">
+                    <a href="https://www.nike.com/" target="_blank"><img src='{% static "store/images/nike-logo.png" %}'></a>
+                </div>
+                <div class="col-5">
+                    <a href="https://us.puma.com/" target="_blank"><img src='{% static "store/images/puma-logo.png" %}'></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ------------footer----------- -->
+
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone</p>
+                    <div class="app-logo">
+                        <img src='{% static "store/images/play-store.png" %}'>
+                        <img src='{% static "store/images/app-store.png" %}'>
+                    </div>
+                </div>
+                <div class="footer-col-2">
+                    <img src='{% static "store/images/logo-white.png" %}'>
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and
+                        Benefits of Sports Accessible to the Many</p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube </li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="Copyright">Copyright 2020 - By QuocHuy</p>
+        </div>
+    </div>
+    <!-- ------------------- js for toggle menu-------------- -->
+    <script>
+        var MenuItems = document.getElementById("MenuItems");
+
+        MenuItems.style.maxHeight = "0px";
+
+        function menutoggle() {
+            if (MenuItems.style.maxHeight == "0px") {
+                MenuItems.style.maxHeight = "200px";
+            }
+            else {
+                MenuItems.style.maxHeight = "0px";
+            }
+        }
+
+    </script>
+
+    <!--------------------- JS for  product gallery-------------------------->
+    <script>
+        var ProductImg = document.getElementById("productImg");
+        var SmallImg = document.getElementsByClassName("small-img");
+
+        SmallImg[0].onclick = function () {
+            ProductImg.src = SmallImg[0].src;
+        }
+        SmallImg[1].onclick = function () {
+            ProductImg.src = SmallImg[1].src;
+        }
+        SmallImg[2].onclick = function () {
+            ProductImg.src = SmallImg[2].src;
+        }
+        SmallImg[3].onclick = function () {
+            ProductImg.src = SmallImg[3].src;
+        }
+
+    </script>
+
+    <!-- ------------------- js for Account form-------------- -->
+
+    <script>
+        var LoginForm = document.getElementById("LoginForm");
+        var RegForm = document.getElementById("RegForm");
+        var Indicator = document.getElementById("Indicator");
+
+        function register() {
+            RegForm.style.transform = "translateX(0px)";
+            LoginForm.style.transform = "translateX(0px)";
+            Indicator.style.transform = "translateX(55px)";
+
+        }
+        function login() {
+            RegForm.style.transform = "translateX(300px)";
+            LoginForm.style.transform = "translateX(300px)";
+            Indicator.style.transform = "translateX(0px)";
+        }
+
+
+    </script>
+
+    <!-- --------------- Slideshow --------------- -->
+
+    <script>
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            setTimeout(showSlides, 4000); // Change image every 2 seconds
+        }
+    </script>
+
+    <!-- ------------------ Style Slideshow ---------------- -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Verdana, sans-serif;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            -webkit-animation-name: fade;
+            -webkit-animation-duration: 1.5s;
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @-webkit-keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes fade {
+            from {
+                opacity: .4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+            .text {
+                font-size: 11px
+            }
+        }
+    </style>
+</body>
+
+</html>

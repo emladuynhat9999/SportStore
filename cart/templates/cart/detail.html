@@ -1,0 +1,90 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Shopping Cart -->
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<!-- Shopping Summery -->
+			<table class="table shopping-summery">
+				<thead>
+					<tr class="main-hading">
+						<th>SẢN PHẨM</th>
+						<th>TÊN</th>
+						<th class="text-center">ĐƠN GIÁ (đ)</th>
+						<th class="text-center">SỐ LƯỢNG</th>
+						<th class="text-center">THÀNH TIỀN</th>
+						<th class="text-center"><i class="ti-trash remove-icon"></i></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in cart %}
+					{% with product=item.product %}
+					<tr>
+						<a href="{% url 'store:products_detail.html' product.pk %}"><td class="image" data-title="No"><img src="{{product.image.url}}" alt="{{product.name}}"></a>
+						</td>
+						<td class="product-des" data-title="Description">
+							<p class="product-name"><a
+									href="{% url 'store:products_detail.html' product.pk %}">{{product.name}}</a></p>
+						</td>
+						<td class="price" data-title="Price"><span>{% load humanize %}{{product.price|floatformat:0|intcomma}}</span></td>
+						<td class="qty" data-title="Qty">
+							<!-- Input Order -->
+							<div class="input-group">
+								<form action="{% url 'cart:cart_add' product.id %}" method="POST">
+									{{item.update_quantity_form.quantity}}
+									{{item.update_quantity_form.override}}
+									{% csrf_token %}
+									<input type="submit" value="&#x21bb;">
+								</form>
+							</div>
+							<!--/ End Input Order -->
+						</td>
+						<td class="total-amount" data-title="Total"><span>{% load humanize %}{{item.total_price|floatformat:0|intcomma}}</span></td>
+						<td class="action" data-title="Remove">
+							<form action="{% url 'cart:cart_remove' product.id %}" method="POST">
+								{% csrf_token %}
+								<input type="submit" value="&#9746;">
+							</form>
+						</td>
+					</tr>
+					{% endwith %}
+					{% endfor %}
+				</tbody>
+			</table>
+			<!--/ End Shopping Summery -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			<!-- Total Amount -->
+			<div class="total-amount">
+				<div class="row">
+					<div class="col-lg-8 col-md-5 col-12">
+
+					</div>
+					<div class="col-lg-4 col-md-7 col-12">
+						<div class="right">
+							<ul>
+								<li>Tạm tính<span> {% load humanize %}{{cart.get_total_price|floatformat:0|intcomma}} VNĐ</span></li>
+								<li>Giao hàng<span> Miễn phí</span></li>
+								<li>Tiết kiệm<span> {% load humanize %}{{store.get_discount|floatformat:0|intcomma}}</span></li>
+								<li class="last">Tổng đơn hàng<span> {% load humanize %}{{cart.get_total_price|floatformat:0|intcomma}} VNĐ</span></li>
+							</ul>
+							<div class="button5">
+								{% if cart%}
+								<a href="{% url 'orders:order_create' %}" class="btn">Đặt hàng</a>
+								{% endif %}
+								<a href="{% url 'store:products.html' 0%}" class="btn">Tiếp tục chọn hàng</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/ End Total Amount -->
+		</div>
+	</div>
+</div>
+
+<!--/ End Shopping Cart -->
+{% endblock %}

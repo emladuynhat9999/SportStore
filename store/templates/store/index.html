@@ -1,0 +1,172 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="slideshow-container">
+
+    <!-- <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/3.jpg" style="width:100%; height: 700px">
+        <div class="text"></div>
+    </div> -->
+
+    <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/4.jpg" style="width:100%; height: 700px">
+        <div class="text"></div>
+    </div>
+
+    <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/5.jpg" style="width:100%; height: 700px;">
+        <div class="text"></div>
+    </div>
+
+    <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/6.jpg" style="width:100%; height: 700px;">
+        <div class="text"></div>
+    </div>
+
+    <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/7.jpg" style="width:100%; height: 700px;">
+        <div class="text"></div>
+    </div>
+
+    <div class="mySlides fade">
+        <div class="numbertext"></div>
+        <img src="/media/store/images/8.jpg" style="width:100%; height: 700px;">
+        <div class="text"></div>
+    </div>
+
+</div>
+<br>
+
+<div style="text-align:center">
+    <!-- <span class="dot"></span> -->
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+</div>
+<!-- ------------- featured categorries ---------------- -->
+<div class="categories">
+    <div class="small-container">
+        <h2 class="title">Most Viewed Products</h2>
+        <div class="row">
+            {% if most_viewed_list %}
+            {% for product in most_viewed_list%}
+            <div class="col-4">
+                <a href='{% url "store:products_detail.html" product.pk %}'><img class="default-img"
+                        src="{{product.image.url}}" alt="{{product.name}}"></a>
+                <a href='{% url "store:products_detail.html" product.pk %}'>
+                    <h4><strong>{{product.name}}</strong></h4>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!-- ------------- featured products ---------------- -->
+    <div class="small-container">
+        <h2 class="title">Newest Products</h2>
+        <div class="row">
+            {% if four_newest %}
+            {% for product in four_newest%}
+            <div class="col-4">
+                <a href='{% url "store:products_detail.html" product.pk %}'><img class="default-img"
+                        src="{{product.image.url}}" alt="{{product.name}}"></a>
+                <a href='{% url "store:products_detail.html" product.pk %}'>
+                    <h4><strong>{{product.name}}</strong></h4>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <h2 class="title">Latest Products</h2>
+        <div class="row">
+            {% if four_oldest %}
+            {% for product in four_oldest%}
+            <div class="col-4">
+                <a href='{% url "store:products_detail.html" product.pk %}'><img class="default-img"
+                        src="{{product.image.url}}" alt="{{product.name}}"></a>
+                <a href='{% url "store:products_detail.html" product.pk%}'></a>
+                    <h4><strong>{{product.name}}</strong></h4>
+                </a>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!-- ------------ offer -------------- -->
+    <div class="offer">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-2"><img src='{% static "store/images/exclusive.png" %}' class="offer-img"> </div>
+                <div class="col-2">
+                    <p>Exclusive Availabble on RedStore</p>
+                    <h1>Smart Band 4</h1>
+                    <small>
+                        The Mi Smart Band 4 features a 39.9% larger (than Mi Band 4) AMOLED color full-touch display
+                        with
+                        adjustable brightness, so everything is clear as can be</small>
+                    <a href="" class="btn">Buy Now &#8594;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ------------ testimonial -------------- -->
+    <div class="testimonial">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-3">
+                    <i class="fa fa-qoute-lef"></i>
+                    <p>Abilities or he perfectly pretended so strangers be exquisite. Oh to another chamber pleased
+                        imagine do in. Went me rank at last loud shot an draw. Excellent so to no sincerity smallness.
+                        Removal request delight if on he we</p>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <img src='{% static "store/images/user-1.png" %}'>
+                    <h3>Đạt 1 Phích</h3>
+                </div>
+                <div class="col-3">
+                    <i class="fa fa-qoute-lef"></i>
+                    <p>Abilities or he perfectly pretended so strangers be exquisite. Oh to another chamber pleased
+                        imagine do in. Went me rank at last loud shot an draw. Excellent so to no sincerity smallness.
+                        Removal request delight if on he we</p>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <img src='{% static "store/images/user-2.png" %}'>
+                    <h3>An Nguyen</h3>
+                </div>
+                <div class="col-3">
+                    <i class="fa fa-qoute-lef"></i>
+                    <p>Abilities or he perfectly pretended so strangers be exquisite. Oh to another chamber pleased
+                        imagine do in. Went me rank at last loud shot an draw. Excellent so to no sincerity smallness.
+                        Removal request delight if on he we</p>
+                    <div class="rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+                    <img src='{% static "store/images/user-3.png" %}'>
+                    <h3>Quang Hoang</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

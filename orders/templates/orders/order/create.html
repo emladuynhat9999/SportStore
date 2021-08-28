@@ -1,0 +1,96 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Start Checkout -->
+<section class="shop checkout section">
+	<div class="container">
+		<form class="form" method="POST" action="{% url 'orders:order_create'%}">
+		<div class="row">
+			<!-- Form -->
+			<div class="col-lg-8 col-12">
+				<div class="checkout-form">
+					<h2>Thông tin khách hàng</h2>
+					<p>Vui lòng đăng ký tài khoản tại <a href="{% url 'store:signin.html'%}">
+						<b>Sign in</b></a> để việc đặt hàng nhanh chóng và dễ dàng hơn</p>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="form-group">
+								<input type="hidden" value="{{username}}" name="username"/>
+								<label>Họ<span>*</span></label>
+								{{form.last_name}}
+							</div>
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="form-group">
+								<label>Tên<span>*</span></label>
+								{{form.first_name}}
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="form-group">
+								<label>Email<span>*</span></label>
+								{{form.email}}
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-12">
+							<div class="form-group">
+								<label>Số điện thoại<span>*</span></label>
+								{{form.phone}}
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
+								<label>Địa chỉ giao hàng<span>*</span></label>
+								{{form.address}}
+							</div>
+						</div>						
+					</div>					
+				</div>
+			</div>
+			<div class="col-lg-4 col-12">
+				<div class="order-details">
+					<!-- Order Widget -->
+					<div class="single-widget">
+						<h2>THÔNG TIN GIỎ HÀNG</h2>
+						<div class="content">
+							<ul>
+								{% for item in cart %}
+								<li>
+									{{ item.quantity }}x {{ item.product.name }}
+									<span>{% load humanize %}{{item.total_price|floatformat:0|intcomma}} VNĐ</span>
+								</li>
+								{% endfor %}
+							</ul>
+							<ul>
+								<li>
+									<hr />
+								</li>
+								<li>Tạm tính<span> {% load humanize %}{{cart.get_total_price|floatformat:0|intcomma}} VNĐ</span></li>
+								<li>(+) Giao hàng<span> 0 VNĐ</span></li>
+								<li class="last">Tổng đơn hàng<span> {% load humanize %}{{cart.get_total_price|floatformat:0|intcomma}} VNĐ</span></li>
+							</ul>
+						</div>
+					</div>
+					<!--/ End Order Widget -->
+					<!-- Button Widget -->
+					<div class="single-widget get-button">
+						<div class="content">
+							<div class="button">
+								<button type="submit" class="btn ">Đặt hàng</button>
+								{% csrf_token %}
+							</div>
+						</div>
+					</div>
+					<!--/ End Button Widget -->
+				</div>
+			</div>
+		</div>		
+		</form>
+		<!--/ End Form -->
+	</div>
+</section>
+<!--/ End Checkout -->
+
+{% endblock %}

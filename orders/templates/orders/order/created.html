@@ -1,0 +1,35 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Start Checkout -->
+<section class="shop checkout section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-12">
+				<div class="checkout-form">
+					<h2>Cảm ơn quý khách</h2>
+					<p>Quý khách <b> {{order.last_name}} {{order.first_name}} </b> đã đặt hàng thành công. Đơn hàng của quý khách
+						có mã số {{order.id }}</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-12">
+				<div class="order-details">
+					<!-- Order Widget -->
+					<div class="single-widget">
+						<h2>THÔNG TIN GIAO HÀNG (Dự kiến)</h2>
+						<div class="content">
+							<ul>
+								<li>Phone: {{order.phone}}</li>
+								<li>Email: {{order.email}}</li>
+								<li>Địa chỉ giao hàng: {{order.address}}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--/ End Checkout -->
+
+{% endblock %}
